@@ -8,12 +8,13 @@ namespace Crypto_Registerer_Transactions
 {
     interface ILogicService
     {
-        void IsExit(string response, CancellationTokenSource token);
+        bool IsExit(string response, CancellationTokenSource token);
         void SaveTransaction(string wallet);
         double SumOfTransactionsByWallet(string wallet);
         bool IsWalletExists(string wallet);
         bool IsWalletValid(string wallet);
         void SayTransactionDeclined();
         void LoadTransactionData();
+        void SayMessage(string message, ConsoleColor color);
     }
 }

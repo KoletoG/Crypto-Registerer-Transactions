@@ -39,7 +39,7 @@ namespace Crypto_Registerer_Transactions
                 throw;
             }
         }
-        public void IsExit(string response, CancellationTokenSource token)
+        public bool IsExit(string response, CancellationTokenSource token)
         {
             try
             {
@@ -48,10 +48,15 @@ namespace Crypto_Registerer_Transactions
                     token.Cancel();
                     throw new OperationCanceledException();
                 }
+                else
+                {
+                    return false;
+                }
             }
             catch (OperationCanceledException)
             {
                 Console.WriteLine("App has been stopped.");
+                return true;
             }
             catch (Exception ex)
             {
@@ -99,6 +104,12 @@ namespace Crypto_Registerer_Transactions
                 _logger.LogError(ex, $"Error came from {nameof(SaveTransaction)}");
                 throw;
             }
+        }
+        public void SayMessage(string message, ConsoleColor color)
+        {
+            Console.ForegroundColor = color;
+            Console.WriteLine(message);
+            Console.ForegroundColor = ConsoleColor.Gray;
         }
         public double SumOfTransactionsByWallet(string wallet)
         {

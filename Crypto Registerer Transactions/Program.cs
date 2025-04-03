@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Serilog;
+using Solnet.Wallet;
 namespace Crypto_Registerer_Transactions
 {
     internal class Program
@@ -35,46 +36,44 @@ namespace Crypto_Registerer_Transactions
             try
             {
                 _logicService.LoadTransactionData();
-                Console.WriteLine("If you want to stop the application, either just press ENTER or just exit from the X");
+                _logicService.SayMessage("If you want to stop the application, either just press ENTER or just exit from the X", ConsoleColor.Blue);
                 while (!token.IsCancellationRequested)
                 {
                     Console.WriteLine("Enter wallet address:");
                     string wallet = Console.ReadLine() ?? string.Empty;
-                    _logicService.IsExit(wallet, token);
-                    if (_logicService.IsWalletValid(wallet))
+                    if(!_logicService.IsExit(wallet, token))
                     {
-                        if (_logicService.IsWalletExists(wallet))
+                        if (_logicService.IsWalletValid(wallet))
                         {
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine($"Wallet exists with transaction sum of {_logicService.SumOfTransactionsByWallet(wallet)}, do you want to register another transaction to this wallet? - Y / N");
-                            Console.ForegroundColor = ConsoleColor.Gray;
-                            string response = Console.ReadLine() ?? string.Empty;
-                            _logicService.IsExit(response, token);
-                            switch (response.ToUpper())
+                            if (_logicService.IsWalletExists(wallet))
                             {
-                                case "Y": _logicService.SaveTransaction(wallet);break;
-                                case "N":_logicService.SayTransactionDeclined();break;
-                                default: Console.WriteLine("Invalid response.");break;
+                                _logicService.SayMessage($"Wallet exists with transaction sum of {_logicService.SumOfTransactionsByWallet(wallet)}, do you want to register another transaction to this wallet? - Y / N", ConsoleColor.Red);
+                                string response = Console.ReadLine() ?? string.Empty;
+                                _logicService.IsExit(response, token);
+                                switch (response.ToUpper())
+                                {
+                                    case "Y": _logicService.SaveTransaction(wallet); break;
+                                    case "N": _logicService.SayTransactionDeclined(); break;
+                                    default: Console.WriteLine("Invalid response."); break;
+                                }
+                            }
+                            else
+                            {
+                                _logicService.SayMessage("Wallet hasn't been registered, do you want to register a transaction? - Y / N", ConsoleColor.Green);
+                                string response = Console.ReadLine() ?? string.Empty;
+                                _logicService.IsExit(response, token);
+                                switch (response.ToUpper())
+                                {
+                                    case "Y": _logicService.SaveTransaction(wallet); break;
+                                    case "N": _logicService.SayTransactionDeclined(); break;
+                                    default: Console.WriteLine("Invalid response."); break;
+                                }
                             }
                         }
                         else
                         {
-                            Console.ForegroundColor = ConsoleColor.Green;
-                            Console.WriteLine("Wallet hasn't been registered, do you want to register a transaction? - Y / N");
-                            Console.ForegroundColor = ConsoleColor.Gray;
-                            string response = Console.ReadLine() ?? string.Empty;
-                            _logicService.IsExit(response, token);
-                            switch (response.ToUpper())
-                            {
-                                case "Y": _logicService.SaveTransaction(wallet); break;
-                                case "N": _logicService.SayTransactionDeclined(); break;
-                                default: Console.WriteLine("Invalid response."); break;
-                            }
+                            Console.WriteLine("Invalid wallet address");
                         }
-                    }
-                    else
-                    {
-                        Console.WriteLine("Invalid wallet address");
                     }
                 }
             }
@@ -84,6 +83,6 @@ namespace Crypto_Registerer_Transactions
                 throw;
             }
         }
-
+       
     }
 }
