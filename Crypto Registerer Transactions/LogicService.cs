@@ -9,10 +9,19 @@ namespace Crypto_Registerer_Transactions
 {
     internal class LogicService : ILogicService
     {
-        private ILogger<LogicService> _logger;
+        private ILogger<LogicService> _logger; 
+        private HashSet<string> _walletsCache = new();
         public LogicService(ILogger<LogicService> logger)
         {
             _logger = logger;
+        }
+        public void LoadWallets()
+        {
+            if (!File.Exists(@"..\..\wallets.txt")) return;
+
+            _walletsCache = File.ReadLines(@"..\..\wallets.txt")
+                                .Where((_, index) => index % 2 == 0)
+                                .ToHashSet();
         }
         public void IsExit(string response, CancellationTokenSource token)
         {
@@ -91,11 +100,11 @@ namespace Crypto_Registerer_Transactions
         {
             try
             {
-                return File.ReadLines(@"..\..\wallets.txt").Contains(wallet);
+                return _walletsCache.Contains(wallet);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Error came from {nameof(IsResponseY)}");
+                _logger.LogError(ex, $"Error came from {nameof(IsWalletExists)}");
                 throw new Exception(ex.ToString());
             }
         }

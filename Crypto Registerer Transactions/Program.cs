@@ -34,13 +34,7 @@ namespace Crypto_Registerer_Transactions
         {
             try
             {
-                if (!File.Exists(@"..\..\wallets.txt"))
-                {
-                    using (StreamWriter streamWriter = new StreamWriter(@"..\..\wallets.txt", true))
-                    {
-                        Console.WriteLine("Wallets.txt created successfully.");
-                    }
-                }
+                _logicService.LoadWallets();
                 Console.WriteLine("If you want to stop the application, either just press ENTER or just exit from the X");
                 while (!token.IsCancellationRequested)
                 {
