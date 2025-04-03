@@ -57,6 +57,7 @@ namespace Crypto_Registerer_Transactions
                         strW.WriteLine(wallet);
                         strW.WriteLine(sum);
                     }
+                    _walletsCache.Add(wallet);
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("Transaction saved successfully!");
                     Console.ForegroundColor = ConsoleColor.Gray;
