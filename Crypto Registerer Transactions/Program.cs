@@ -53,7 +53,7 @@ namespace Crypto_Registerer_Transactions
                                 switch (response.ToUpper())
                                 {
                                     case "Y": _logicService.SaveTransaction(wallet); break;
-                                    case "N": _logicService.SayTransactionDeclined(); break;
+                                    case "N": _logicService.SayMessage("Transaction registration declined.", ConsoleColor.Red); break;
                                     default: Console.WriteLine("Invalid response."); break;
                                 }
                             }
@@ -65,7 +65,7 @@ namespace Crypto_Registerer_Transactions
                                 switch (response.ToUpper())
                                 {
                                     case "Y": _logicService.SaveTransaction(wallet); break;
-                                    case "N": _logicService.SayTransactionDeclined(); break;
+                                    case "N": _logicService.SayMessage("Transaction registration declined.",ConsoleColor.Red); break;
                                     default: Console.WriteLine("Invalid response."); break;
                                 }
                             }

@@ -140,11 +140,5 @@ namespace Crypto_Registerer_Transactions
             PublicKey publicKey = new PublicKey(wallet);
             return publicKey.IsValid();
         }
-        public void SayTransactionDeclined()
-        {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("Transaction registration declined.");
-            Console.ForegroundColor = ConsoleColor.Gray;
-        }
     }
 }
