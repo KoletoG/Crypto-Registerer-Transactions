@@ -14,6 +14,8 @@ namespace Crypto_Registerer_Transactions
         public Program()
         {
             _serviceProvider = BuildService();
+            _logicService = _serviceProvider.GetRequiredService<ILogicService>();
+            _logger = _serviceProvider.GetRequiredService<ILogger<Program>>();
         }
         private IServiceProvider BuildService()
         {
@@ -32,9 +34,7 @@ namespace Crypto_Registerer_Transactions
         {
             try
             {
-                _logicService = _serviceProvider.GetRequiredService<ILogicService>();
-                _logger = _serviceProvider.GetRequiredService<ILogger<Program>>();
-                if (!File.Exists(@"..\..\wallets.text"))
+                if (!File.Exists(@"..\..\wallets.txt"))
                 {
                     using (StreamWriter streamWriter = new StreamWriter(@"..\..\wallets.txt", true))
                     {
@@ -91,7 +91,7 @@ namespace Crypto_Registerer_Transactions
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Error came from {nameof(Run)}");
-                throw new Exception(ex.ToString());
+                throw;
             }
         }
 
