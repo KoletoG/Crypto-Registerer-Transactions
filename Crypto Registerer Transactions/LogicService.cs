@@ -36,6 +36,10 @@ namespace Crypto_Registerer_Transactions
                     throw new OperationCanceledException();
                 }
             }
+            catch (OperationCanceledException)
+            {
+                Console.WriteLine("App has been stopped.");
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Error came from {nameof(IsExit)}");
@@ -55,6 +59,9 @@ namespace Crypto_Registerer_Transactions
                         strW.WriteLine(wallet);
                         strW.WriteLine(sum);
                     }
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("Transaction saved successfully!");
+                    Console.ForegroundColor = ConsoleColor.Gray;
                 }
                 else
                 {
@@ -107,6 +114,12 @@ namespace Crypto_Registerer_Transactions
         {
             PublicKey publicKey = new PublicKey(wallet);
             return publicKey.IsValid();
+        }
+        public void SayTransactionDeclined()
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Transaction registration declined.");
+            Console.ForegroundColor = ConsoleColor.Gray;
         }
     }
 }

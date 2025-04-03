@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System.Transactions;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Serilog;
 namespace Crypto_Registerer_Transactions
@@ -6,7 +7,7 @@ namespace Crypto_Registerer_Transactions
     internal class Program
     {
 
-        private static CancellationTokenSource token = new CancellationTokenSource();
+        private CancellationTokenSource token = new CancellationTokenSource();
         private ILogicService _logicService;
         private IServiceProvider _serviceProvider;
         private ILogger<Program> _logger;
@@ -50,7 +51,9 @@ namespace Crypto_Registerer_Transactions
                     {
                         if (_logicService.IsWalletExists(wallet))
                         {
+                            Console.ForegroundColor = ConsoleColor.Red;
                             Console.WriteLine($"Wallet exists with transaction sum of {_logicService.SumOfTransactionsByWallet(wallet)}, do you want to register another transaction to this wallet? - Y / N");
+                            Console.ForegroundColor = ConsoleColor.Gray;
                             string response = Console.ReadLine() ?? string.Empty;
                             _logicService.IsExit(response, token);
                             if (_logicService.IsResponseY(response))
@@ -59,12 +62,14 @@ namespace Crypto_Registerer_Transactions
                             }
                             else
                             {
-                                Console.WriteLine("Transaction registration declined.");
+                                _logicService.SayTransactionDeclined();
                             }
                         }
                         else
                         {
+                            Console.ForegroundColor = ConsoleColor.Green;
                             Console.WriteLine("Wallet hasn't been registered, do you want to register a transaction? - Y / N");
+                            Console.ForegroundColor = ConsoleColor.Gray;
                             string response = Console.ReadLine() ?? string.Empty;
                             _logicService.IsExit(response, token);
                             if (_logicService.IsResponseY(response))
@@ -73,7 +78,7 @@ namespace Crypto_Registerer_Transactions
                             }
                             else
                             {
-                                Console.WriteLine("Transaction registration declined.");
+                                _logicService.SayTransactionDeclined();
                             }
                         }
                     }
@@ -82,7 +87,6 @@ namespace Crypto_Registerer_Transactions
                         Console.WriteLine("Invalid wallet address");
                     }
                 }
-                Console.WriteLine("App has stopped");
             }
             catch (Exception ex)
             {
