@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Serilog;
-
 namespace Crypto_Registerer_Transactions
 {
     internal class Program
@@ -47,33 +46,40 @@ namespace Crypto_Registerer_Transactions
                     Console.WriteLine("Enter wallet address:");
                     string wallet = Console.ReadLine() ?? string.Empty;
                     _logicService.IsExit(wallet, token);
-                    if (_logicService.IsWalletExists(wallet))
+                    if (_logicService.IsWalletValid(wallet))
                     {
-                        Console.WriteLine($"Wallet exists with transaction sum of {_logicService.SumOfTransactionsByWallet(wallet)}, do you want to register another transaction to this wallet? - Y / N");
-                        string response = Console.ReadLine() ?? string.Empty;
-                        _logicService.IsExit(response, token);
-                        if (_logicService.IsResponseY(response))
+                        if (_logicService.IsWalletExists(wallet))
                         {
-                            _logicService.SaveTransaction(wallet);
+                            Console.WriteLine($"Wallet exists with transaction sum of {_logicService.SumOfTransactionsByWallet(wallet)}, do you want to register another transaction to this wallet? - Y / N");
+                            string response = Console.ReadLine() ?? string.Empty;
+                            _logicService.IsExit(response, token);
+                            if (_logicService.IsResponseY(response))
+                            {
+                                _logicService.SaveTransaction(wallet);
+                            }
+                            else
+                            {
+                                Console.WriteLine("Transaction registration declined.");
+                            }
                         }
                         else
                         {
-                            Console.WriteLine("Transaction registration declined.");
+                            Console.WriteLine("Wallet hasn't been registered, do you want to register a transaction? - Y / N");
+                            string response = Console.ReadLine() ?? string.Empty;
+                            _logicService.IsExit(response, token);
+                            if (_logicService.IsResponseY(response))
+                            {
+                                _logicService.SaveTransaction(wallet);
+                            }
+                            else
+                            {
+                                Console.WriteLine("Transaction registration declined.");
+                            }
                         }
                     }
                     else
                     {
-                        Console.WriteLine("Wallet hasn't been registered, do you want to register a transaction? - Y / N");
-                        string response = Console.ReadLine() ?? string.Empty;
-                        _logicService.IsExit(response, token);
-                        if (_logicService.IsResponseY(response))
-                        {
-                            _logicService.SaveTransaction(wallet);
-                        }
-                        else
-                        {
-                            Console.WriteLine("Transaction registration declined.");
-                        }
+                        Console.WriteLine("Invalid wallet address");
                     }
                 }
                 Console.WriteLine("App has stopped");

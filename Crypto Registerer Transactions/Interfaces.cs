@@ -13,5 +13,6 @@ namespace Crypto_Registerer_Transactions
         void SaveTransaction(string wallet);
         int SumOfTransactionsByWallet(string wallet);
         bool IsWalletExists(string wallet);
+        bool IsWalletValid(string wallet);
     }
 }

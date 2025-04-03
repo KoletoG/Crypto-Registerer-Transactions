@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-
+using Solnet.Wallet;
 namespace Crypto_Registerer_Transactions
 {
     internal class LogicService : ILogicService
@@ -95,6 +95,11 @@ namespace Crypto_Registerer_Transactions
                 _logger.LogError(ex, $"Error came from {nameof(IsResponseY)}");
                 throw new Exception(ex.ToString());
             }
+        }
+        public bool IsWalletValid(string wallet)
+        {
+            PublicKey publicKey = new PublicKey(wallet);
+            return publicKey.IsValid();
         }
     }
 }
