@@ -14,18 +14,6 @@ namespace Crypto_Registerer_Transactions
         {
             _logger = logger;
         }
-        public bool IsResponseY(string response)
-        {
-            try
-            {
-                return response.ToUpper() == "Y" || response.ToUpper() == "YES";
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"Error came from {nameof(IsResponseY)}");
-                throw new Exception(ex.ToString());
-            }
-        }
         public void IsExit(string response, CancellationTokenSource token)
         {
             try
@@ -52,8 +40,9 @@ namespace Crypto_Registerer_Transactions
             {
                 Console.WriteLine("Enter sum to register:");
                 string response = Console.ReadLine() ?? string.Empty;
-                if (double.TryParse(response, out double result)) {
-                    double sum = result; 
+                if (double.TryParse(response, out double result))
+                {
+                    double sum = result;
                     using (StreamWriter strW = new StreamWriter(@"..\..\wallets.txt", true))
                     {
                         strW.WriteLine(wallet);

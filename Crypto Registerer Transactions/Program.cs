@@ -56,13 +56,11 @@ namespace Crypto_Registerer_Transactions
                             Console.ForegroundColor = ConsoleColor.Gray;
                             string response = Console.ReadLine() ?? string.Empty;
                             _logicService.IsExit(response, token);
-                            if (_logicService.IsResponseY(response))
+                            switch (response.ToUpper())
                             {
-                                _logicService.SaveTransaction(wallet);
-                            }
-                            else
-                            {
-                                _logicService.SayTransactionDeclined();
+                                case "Y": _logicService.SaveTransaction(wallet);break;
+                                case "N":_logicService.SayTransactionDeclined();break;
+                                default: Console.WriteLine("Invalid response.");break;
                             }
                         }
                         else
@@ -72,13 +70,11 @@ namespace Crypto_Registerer_Transactions
                             Console.ForegroundColor = ConsoleColor.Gray;
                             string response = Console.ReadLine() ?? string.Empty;
                             _logicService.IsExit(response, token);
-                            if (_logicService.IsResponseY(response))
+                            switch (response.ToUpper())
                             {
-                                _logicService.SaveTransaction(wallet);
-                            }
-                            else
-                            {
-                                _logicService.SayTransactionDeclined();
+                                case "Y": _logicService.SaveTransaction(wallet); break;
+                                case "N": _logicService.SayTransactionDeclined(); break;
+                                default: Console.WriteLine("Invalid response."); break;
                             }
                         }
                     }
