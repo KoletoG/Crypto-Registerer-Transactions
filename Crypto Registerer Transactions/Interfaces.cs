@@ -14,6 +14,6 @@ namespace Crypto_Registerer_Transactions
         bool IsWalletExists(string wallet);
         bool IsWalletValid(string wallet);
         void SayTransactionDeclined();
-        void LoadWallets();
+        void LoadTransactionData();
     }
 }

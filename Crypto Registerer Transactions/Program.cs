@@ -34,7 +34,7 @@ namespace Crypto_Registerer_Transactions
         {
             try
             {
-                _logicService.LoadWallets();
+                _logicService.LoadTransactionData();
                 Console.WriteLine("If you want to stop the application, either just press ENTER or just exit from the X");
                 while (!token.IsCancellationRequested)
                 {
