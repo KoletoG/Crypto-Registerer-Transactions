@@ -11,7 +11,7 @@ namespace Crypto_Registerer_Transactions
         bool IsResponseY(string response);
         void IsExit(string response, CancellationTokenSource token);
         void SaveTransaction(string wallet);
-        int SumOfTransactionsByWallet(string wallet);
+        double SumOfTransactionsByWallet(string wallet);
         bool IsWalletExists(string wallet);
         bool IsWalletValid(string wallet);
     }

@@ -48,11 +48,18 @@ namespace Crypto_Registerer_Transactions
             {
                 Console.WriteLine("Enter sum to register:");
                 string response = Console.ReadLine() ?? string.Empty;
-                int sum = int.Parse(response);
-                using (StreamWriter strW = new StreamWriter(@"..\..\wallets.txt", true))
+                if (double.TryParse(response, out double result)) {
+                    double sum = result; 
+                    using (StreamWriter strW = new StreamWriter(@"..\..\wallets.txt", true))
+                    {
+                        strW.WriteLine(wallet);
+                        strW.WriteLine(sum);
+                    }
+                }
+                else
                 {
-                    strW.WriteLine(wallet);
-                    strW.WriteLine(sum);
+                    Console.WriteLine("Invalid number.");
+                    SaveTransaction(wallet);
                 }
             }
             catch (Exception ex)
@@ -61,18 +68,18 @@ namespace Crypto_Registerer_Transactions
                 throw new Exception(ex.ToString());
             }
         }
-        public int SumOfTransactionsByWallet(string wallet)
+        public double SumOfTransactionsByWallet(string wallet)
         {
             try
             {
-                int wholeSum = 0;
+                double wholeSum = 0;
                 using (StreamReader streamReader = new StreamReader(@"..\..\wallets.txt"))
                 {
                     while (!streamReader.EndOfStream)
                     {
                         if (streamReader.ReadLine() == wallet)
                         {
-                            wholeSum += int.Parse(streamReader.ReadLine() ?? "0");
+                            wholeSum += double.Parse(streamReader.ReadLine() ?? "0");
                         }
                     }
                 }
