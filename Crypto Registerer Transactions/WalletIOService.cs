@@ -20,14 +20,18 @@ namespace Crypto_Registerer_Transactions
         {
             try
             {
-                File.AppendAllText(@"wallets.txt", $"{wallet}\n{sum}\n");
-                if (_walletSumsCache.ContainsKey(wallet))
+                using (StreamWriter sw = new StreamWriter(@"wallets.txt"))
                 {
-                    _walletSumsCache[wallet] += sum;
+                    sw.WriteLine(wallet);
+                    sw.WriteLine(sum);
+                }
+                if (_walletSumsCache.TryGetValue(wallet, out double value))
+                {
+                    _walletSumsCache[wallet] = value + sum;
                 }
                 else
                 {
-                    _walletSumsCache.Add(wallet, sum);
+                    _walletSumsCache[wallet] = sum;
                 }
                 _console.SayMessage("Transaction saved successfully!", ConsoleColor.Green);
             }
