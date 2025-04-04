@@ -9,11 +9,21 @@ namespace Crypto_Registerer_Transactions
     interface ILogicService
     {
         bool IsExit(string response, CancellationTokenSource token);
-        void SaveTransaction(string wallet);
         double SumOfTransactionsByWallet(string wallet);
         bool IsWalletExists(string wallet);
         bool IsWalletValid(string wallet);
-        Task LoadTransactionDataAsync();
+        Task InitializeAsync();
+        Dictionary<string, double> GetWalletsCache();
+    }
+    interface IConsoleService
+    {
         void SayMessage(string message, ConsoleColor color);
+        void ShowList(Dictionary<string, double> _walletSumsCache);
+        double GetSum();
+    }
+    interface IWalletIOService
+    {
+        void SaveTransaction(string wallet, Dictionary<string, double> _walletSumsCache, double sum);
+        Task<Dictionary<string, double>> LoadTransactionDataAsync();
     }
 }
