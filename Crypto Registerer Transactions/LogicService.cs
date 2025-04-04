@@ -123,7 +123,15 @@ namespace Crypto_Registerer_Transactions
                     return false;
                 }
                 PublicKey publicKey = new PublicKey(wallet);
-                return publicKey.IsValid();
+                if (!publicKey.IsValid())
+                {
+                    Console.WriteLine("Invalid wallet address");
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
             }
             catch (Exception ex)
             {

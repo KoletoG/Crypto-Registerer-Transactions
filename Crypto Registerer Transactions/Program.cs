@@ -26,7 +26,6 @@ namespace Crypto_Registerer_Transactions
                 .AddLogging(x => x.AddSerilog())
                 .BuildServiceProvider();
         }
-        // TO DO: LIST OF WALLETS AND SUMS
         static async Task Main(string[] args)
         {
             Program program = new Program();
@@ -70,10 +69,6 @@ namespace Crypto_Registerer_Transactions
                                     default: Console.WriteLine("Invalid response."); break;
                                 }
                             }
-                        }
-                        else
-                        {
-                            Console.WriteLine("Invalid wallet address");
                         }
                     }
                 }
