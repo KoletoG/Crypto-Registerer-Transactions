@@ -59,12 +59,6 @@ namespace Crypto_Registerer_Transactions
         /// <returns></returns>
         private async Task Run()
         {
-            /*
-            if (wallet.ToLower() == "list")
-            {
-                _consoleService.ShowList();
-                return false;
-            }*/
             try
             {
                 await _logicService.InitializeAsync();
@@ -79,33 +73,38 @@ namespace Crypto_Registerer_Transactions
                     }
                     else
                     {
-                        if (_logicService.IsWalletValid(wallet))
+                        if (wallet == "list")
                         {
-                            if (_logicService.IsWalletExists(wallet))
+                            _consoleService.ShowList(_logicService.GetWalletsCache());
+                        }
+                        else
+                        {
+                            if (_logicService.IsWalletValid(wallet))
                             {
-                                _consoleService.SayMessage($"Wallet exists with transaction sum of {_logicService.SumOfTransactionsByWallet(wallet)}, do you want to register another transaction to this wallet? - Y / N", ConsoleColor.Red);
-                                string response = Console.ReadLine() ?? string.Empty;
-                                switch (response.ToUpper())
+                                if (_logicService.IsWalletExists(wallet))
                                 {
-                                    case "Y": double sum = _consoleService.GetSum(); _walletIOService.SaveTransaction(wallet, _logicService.GetWalletsCache(), sum); break;
-                                    case "N": _consoleService.SayMessage("Transaction registration declined.", ConsoleColor.Red); break;
-                                    default: if (_logicService.IsExit(response, token)) { return; }; Console.WriteLine("Invalid response."); break;
+                                    _consoleService.SayMessage($"Wallet exists with transaction sum of {_logicService.SumOfTransactionsByWallet(wallet)}, do you want to register another transaction to this wallet? - Y / N", ConsoleColor.Red);
+                                    string response = Console.ReadLine() ?? string.Empty;
+                                    switch (response.ToUpper())
+                                    {
+                                        case "Y": double sum = _consoleService.GetSum(); _walletIOService.SaveTransaction(wallet, _logicService.GetWalletsCache(), sum); break;
+                                        case "N": _consoleService.SayMessage("Transaction registration declined.", ConsoleColor.Red); break;
+                                        default: if (_logicService.IsExit(response, token)) { return; }; Console.WriteLine("Invalid response."); break;
+                                    }
                                 }
-                            }
-                            else
-                            {
-                                _consoleService.SayMessage("Wallet hasn't been registered, do you want to register a transaction? - Y / N", ConsoleColor.Green);
-                                string response = Console.ReadLine() ?? string.Empty;
-
-                                switch (response.ToUpper())
+                                else
                                 {
-                                    case "Y": double sum = _consoleService.GetSum(); _walletIOService.SaveTransaction(wallet, _logicService.GetWalletsCache(), sum); break;
-                                    case "N": _consoleService.SayMessage("Transaction registration declined.", ConsoleColor.Red); break;
-                                    default: if (_logicService.IsExit(response, token)) { return; }; Console.WriteLine("Invalid response."); break;
+                                    _consoleService.SayMessage("Wallet hasn't been registered, do you want to register a transaction? - Y / N", ConsoleColor.Green);
+                                    string response = Console.ReadLine() ?? string.Empty;
+                                    switch (response.ToUpper())
+                                    {
+                                        case "Y": double sum = _consoleService.GetSum(); _walletIOService.SaveTransaction(wallet, _logicService.GetWalletsCache(), sum); break;
+                                        case "N": _consoleService.SayMessage("Transaction registration declined.", ConsoleColor.Red); break;
+                                        default: if (_logicService.IsExit(response, token)) { return; }; Console.WriteLine("Invalid response."); break;
+                                    }
                                 }
                             }
                         }
-
                     }
                 }
             }
