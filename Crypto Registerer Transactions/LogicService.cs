@@ -9,7 +9,7 @@ namespace Crypto_Registerer_Transactions
 {
     internal class LogicService : ILogicService
     {
-        private ILogger<LogicService> _logger; 
+        private ILogger<LogicService> _logger;
         private Dictionary<string, double> _walletSumsCache = new();
         public LogicService(ILogger<LogicService> logger)
         {
@@ -26,8 +26,13 @@ namespace Crypto_Registerer_Transactions
                     string wallet = lines[i];
                     if (double.TryParse(lines[i + 1], out double sum))
                     {
-                        if (_walletSumsCache.TryGetValue(wallet, out double value)) { 
+                        if (_walletSumsCache.TryGetValue(wallet, out double value))
+                        {
                             _walletSumsCache[wallet] = value + sum;
+                        }
+                        else
+                        {
+                            _walletSumsCache[wallet] = sum;
                         }
                     }
                 }
@@ -38,31 +43,7 @@ namespace Crypto_Registerer_Transactions
                 throw;
             }
         }
-        public bool IsExit(string response, CancellationTokenSource token)
-        {
-            try
-            {
-                if (String.IsNullOrEmpty(response))
-                {
-                    token.Cancel();
-                    throw new OperationCanceledException();
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            catch (OperationCanceledException)
-            {
-                Console.WriteLine("App has been stopped.");
-                return true;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"Error came from {nameof(IsExit)}");
-                throw;
-            }
-        }
+
         public void SaveTransaction(string wallet)
         {
             try
@@ -85,7 +66,7 @@ namespace Crypto_Registerer_Transactions
                         }
                         else
                         {
-                            _walletSumsCache.Add(wallet,sum);
+                            _walletSumsCache.Add(wallet, sum);
                         }
                         SayMessage("Transaction saved successfully!", ConsoleColor.Green);
                         break;
@@ -134,8 +115,61 @@ namespace Crypto_Registerer_Transactions
         }
         public bool IsWalletValid(string wallet)
         {
-            PublicKey publicKey = new PublicKey(wallet);
-            return publicKey.IsValid();
+            try
+            {
+                if (wallet.ToLower() == "list")
+                {
+                    ShowList();
+                    return false;
+                }
+                PublicKey publicKey = new PublicKey(wallet);
+                return publicKey.IsValid();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error came from {nameof(IsWalletValid)}");
+                throw;
+            }
+        }
+        private void ShowList()
+        {
+            try
+            {
+                foreach (var key in _walletSumsCache.Keys)
+                {
+                    Console.WriteLine($"{key} with sum of: {_walletSumsCache[key]}");
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error came from {nameof(ShowList)}");
+                throw;
+            }
+        }
+        public bool IsExit(string response, CancellationTokenSource token)
+        {
+            try
+            {
+                if (String.IsNullOrEmpty(response))
+                {
+                    token.Cancel();
+                    throw new OperationCanceledException();
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                Console.WriteLine("App has been stopped.");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error came from {nameof(IsExit)}");
+                throw;
+            }
         }
     }
 }

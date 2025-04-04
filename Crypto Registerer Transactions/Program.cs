@@ -8,7 +8,6 @@ namespace Crypto_Registerer_Transactions
 {
     internal class Program
     {
-
         private CancellationTokenSource token = new CancellationTokenSource();
         private ILogicService _logicService;
         private IServiceProvider _serviceProvider;
@@ -37,13 +36,12 @@ namespace Crypto_Registerer_Transactions
         {
             try
             {
-                var task = _logicService.LoadTransactionDataAsync();
+                await _logicService.LoadTransactionDataAsync();
                 _logicService.SayMessage("If you want to stop the application, either just press ENTER or just exit from the X", ConsoleColor.Blue);
                 while (!token.IsCancellationRequested)
                 {
-                    Console.WriteLine("Enter wallet address:"); 
+                    Console.WriteLine("Enter wallet address or type list for all wallets and sums:"); 
                     string wallet = Console.ReadLine() ?? string.Empty;
-                    await task;
                     if (!_logicService.IsExit(wallet, token))
                     {
                         if (_logicService.IsWalletValid(wallet))
