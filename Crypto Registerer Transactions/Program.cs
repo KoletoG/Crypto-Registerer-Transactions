@@ -18,6 +18,10 @@ namespace Crypto_Registerer_Transactions
             _logicService = _serviceProvider.GetRequiredService<ILogicService>();
             _logger = _serviceProvider.GetRequiredService<ILogger<Program>>();
         }
+        /// <summary>
+        /// Builds Dependency injection
+        /// </summary>
+        /// <returns>DI Service</returns>
         private IServiceProvider BuildService()
         {
             Log.Logger = new LoggerConfiguration().WriteTo.File(@"log.txt").CreateLogger();
@@ -26,11 +30,27 @@ namespace Crypto_Registerer_Transactions
                 .AddLogging(x => x.AddSerilog())
                 .BuildServiceProvider();
         }
+        /// <summary>
+        /// CPU of the program
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns>Program running</returns>
         static async Task Main(string[] args)
         {
+            if (!File.Exists(@"wallets.txt"))
+            {
+                using (StreamWriter str = new StreamWriter(@"wallets.txt"))
+                {
+
+                }
+            }
             Program program = new Program();
             await program.Run();
         }
+        /// <summary>
+        /// Main logic of the application
+        /// </summary>
+        /// <returns></returns>
         private async Task Run()
         {
             try

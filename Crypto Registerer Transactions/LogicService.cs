@@ -15,12 +15,16 @@ namespace Crypto_Registerer_Transactions
         {
             _logger = logger;
         }
+        /// <summary>
+        /// Fills Dictionary<> with wallets
+        /// </summary>
+        /// <returns>Filled _walletSumsCache</returns>
         public async Task LoadTransactionDataAsync()
         {
             try
             {
                 _walletSumsCache.Clear();
-                var lines = await File.ReadAllLinesAsync(@"..\..\wallets.txt");
+                var lines = await File.ReadAllLinesAsync(@"wallets.txt");
                 for (int i = 0; i < lines.Length; i += 2)
                 {
                     string wallet = lines[i];
@@ -43,7 +47,10 @@ namespace Crypto_Registerer_Transactions
                 throw;
             }
         }
-
+        /// <summary>
+        /// Writes wallet with sum to wallets.txt
+        /// </summary>
+        /// <param name="wallet">Wallet address</param>
         public void SaveTransaction(string wallet)
         {
             try
@@ -55,7 +62,7 @@ namespace Crypto_Registerer_Transactions
                     if (double.TryParse(response, out double result))
                     {
                         double sum = result;
-                        using (StreamWriter strW = new StreamWriter(@"..\..\wallets.txt", true))
+                        using (StreamWriter strW = new StreamWriter(@"wallets.txt", true))
                         {
                             strW.WriteLine(wallet);
                             strW.WriteLine(sum);
@@ -83,12 +90,22 @@ namespace Crypto_Registerer_Transactions
                 throw;
             }
         }
+        /// <summary>
+        /// Writes a message with the specified color
+        /// </summary>
+        /// <param name="message">Message to output</param>
+        /// <param name="color">Color of the message</param>
         public void SayMessage(string message, ConsoleColor color)
         {
             Console.ForegroundColor = color;
             Console.WriteLine(message);
             Console.ForegroundColor = ConsoleColor.Gray;
         }
+        /// <summary>
+        /// Gets the sum of the wallet's registered transactions
+        /// </summary>
+        /// <param name="wallet">Wallet's address</param>
+        /// <returns>Sum of wallet's registered transactions</returns>
         public double SumOfTransactionsByWallet(string wallet)
         {
             try
@@ -101,6 +118,11 @@ namespace Crypto_Registerer_Transactions
                 throw;
             }
         }
+        /// <summary>
+        /// Check if wallet has been registered
+        /// </summary>
+        /// <param name="wallet">Wallet's address</param>
+        /// <returns>True if exists, false if it doesn't</returns>
         public bool IsWalletExists(string wallet)
         {
             try
@@ -113,6 +135,11 @@ namespace Crypto_Registerer_Transactions
                 throw;
             }
         }
+        /// <summary>
+        /// Checks if string is a real wallet, checks if string is list to output ShowList()
+        /// </summary>
+        /// <param name="wallet">wallet's address</param>
+        /// <returns>True if real, false if not</returns>
         public bool IsWalletValid(string wallet)
         {
             try
@@ -139,6 +166,9 @@ namespace Crypto_Registerer_Transactions
                 throw;
             }
         }
+        /// <summary>
+        /// Shows list of all wallets and their sums that have been registered
+        /// </summary>
         private void ShowList()
         {
             try
@@ -154,6 +184,12 @@ namespace Crypto_Registerer_Transactions
                 throw;
             }
         }
+        /// <summary>
+        /// Checks if user input was to exit the application
+        /// </summary>
+        /// <param name="response">User input</param>
+        /// <param name="token">Token for exiting the loop</param>
+        /// <returns>stops application if true, application continues if false</returns>
         public bool IsExit(string response, CancellationTokenSource token)
         {
             try
