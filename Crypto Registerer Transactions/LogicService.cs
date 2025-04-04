@@ -15,27 +15,26 @@ namespace Crypto_Registerer_Transactions
         {
             _logger = logger;
         }
-        public void LoadTransactionData()
+        public async Task LoadTransactionDataAsync()
         {
             try
             {
                 _walletSumsCache.Clear();
-                var lines = File.ReadAllLines(@"..\..\wallets.txt");
-                for (int i = 0; i < lines.Length - 1; i += 2)
+                var lines = await File.ReadAllLinesAsync(@"..\..\wallets.txt");
+                for (int i = 0; i < lines.Length; i += 2)
                 {
                     string wallet = lines[i];
                     if (double.TryParse(lines[i + 1], out double sum))
                     {
-                        if (_walletSumsCache.ContainsKey(wallet))
-                            _walletSumsCache[wallet] += sum;
-                        else
-                            _walletSumsCache[wallet] = sum;
+                        if (_walletSumsCache.TryGetValue(wallet, out double value)) { 
+                            _walletSumsCache[wallet] = value + sum;
+                        }
                     }
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Error came from {nameof(LoadTransactionData)}");
+                _logger.LogError(ex, $"Error came from {nameof(LoadTransactionDataAsync)}");
                 throw;
             }
         }

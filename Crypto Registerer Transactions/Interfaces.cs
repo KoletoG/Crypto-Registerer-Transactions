@@ -13,7 +13,7 @@ namespace Crypto_Registerer_Transactions
         double SumOfTransactionsByWallet(string wallet);
         bool IsWalletExists(string wallet);
         bool IsWalletValid(string wallet);
-        void LoadTransactionData();
+        Task LoadTransactionDataAsync();
         void SayMessage(string message, ConsoleColor color);
     }
 }

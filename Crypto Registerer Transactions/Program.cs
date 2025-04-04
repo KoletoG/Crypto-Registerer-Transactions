@@ -1,4 +1,5 @@
-﻿using System.Transactions;
+﻿using System.Threading.Tasks;
+using System.Transactions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Serilog;
@@ -27,22 +28,23 @@ namespace Crypto_Registerer_Transactions
                 .BuildServiceProvider();
         }
         // TO DO: LIST OF WALLETS AND SUMS
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             Program program = new Program();
-            program.Run();
+            await program.Run();
         }
-        private void Run()
+        private async Task Run()
         {
             try
             {
-                _logicService.LoadTransactionData();
+                var task = _logicService.LoadTransactionDataAsync();
                 _logicService.SayMessage("If you want to stop the application, either just press ENTER or just exit from the X", ConsoleColor.Blue);
                 while (!token.IsCancellationRequested)
                 {
-                    Console.WriteLine("Enter wallet address:");
+                    Console.WriteLine("Enter wallet address:"); 
                     string wallet = Console.ReadLine() ?? string.Empty;
-                    if(!_logicService.IsExit(wallet, token))
+                    await task;
+                    if (!_logicService.IsExit(wallet, token))
                     {
                         if (_logicService.IsWalletValid(wallet))
                         {
