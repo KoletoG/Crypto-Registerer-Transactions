@@ -26,6 +26,7 @@ namespace Crypto_Registerer_Transactions
                 .AddLogging(x => x.AddSerilog())
                 .BuildServiceProvider();
         }
+        // TO DO: LIST OF WALLETS AND SUMS
         static void Main(string[] args)
         {
             Program program = new Program();
