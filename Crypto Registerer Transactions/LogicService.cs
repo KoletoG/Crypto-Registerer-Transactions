@@ -34,13 +34,29 @@ namespace Crypto_Registerer_Transactions
                 throw;
             }
         }
-        public Dictionary<string,double> GetWalletsCache()
+        public Dictionary<string, double> GetWalletsCache()
         {
-            return _walletSumsCache;
+            try
+            {
+                return _walletSumsCache;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error came from {nameof(GetWalletsCache)}");
+                throw;
+            }
         }
         public async Task InitializeAsync()
         {
-            _walletSumsCache = await _walletIOService.LoadTransactionDataAsync() ?? new Dictionary<string, double>();
+            try
+            {
+                _walletSumsCache = await _walletIOService.LoadTransactionDataAsync() ?? new Dictionary<string, double>();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error came from {nameof(InitializeAsync)}");
+                throw;
+            }
         }
         /// <summary>
         /// Check if wallet has been registered
@@ -85,7 +101,7 @@ namespace Crypto_Registerer_Transactions
                 throw;
             }
         }
-        
+
         /// <summary>
         /// Checks if user input was to exit the application
         /// </summary>

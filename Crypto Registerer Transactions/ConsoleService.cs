@@ -22,9 +22,17 @@ namespace Crypto_Registerer_Transactions
         /// <param name="color">Color of the message</param>
         public void SayMessage(string message, ConsoleColor color)
         {
-            Console.ForegroundColor = color;
-            Console.WriteLine(message);
-            Console.ForegroundColor = ConsoleColor.Gray;
+            try
+            {
+                Console.ForegroundColor = color;
+                Console.WriteLine(message);
+                Console.ForegroundColor = ConsoleColor.Gray;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error came from {nameof(SayMessage)}");
+                throw;
+            }
         }
         /// <summary>
         /// Shows list of all wallets and their sums that have been registered
@@ -46,18 +54,26 @@ namespace Crypto_Registerer_Transactions
         }
         public double GetSum()
         {
-            while (true)
+            try
             {
-                Console.WriteLine("Enter sum to register:");
-                string sum = Console.ReadLine() ?? string.Empty;
-                if (double.TryParse(sum, out double result))
+                while (true)
                 {
-                    return result;
+                    Console.WriteLine("Enter sum to register:");
+                    string sum = Console.ReadLine() ?? string.Empty;
+                    if (double.TryParse(sum, out double result))
+                    {
+                        return result;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid number.");
+                    }
                 }
-                else
-                {
-                    Console.WriteLine("Invalid number.");
-                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error came from {nameof(GetSum)}");
+                throw;
             }
         }
     }
