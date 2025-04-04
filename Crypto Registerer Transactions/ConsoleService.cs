@@ -14,7 +14,6 @@ namespace Crypto_Registerer_Transactions
         {
             _logger = logger;
         }
-
         /// <summary>
         /// Writes a message with the specified color
         /// </summary>

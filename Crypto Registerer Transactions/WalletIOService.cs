@@ -20,7 +20,7 @@ namespace Crypto_Registerer_Transactions
         {
             try
             {
-                using (StreamWriter sw = new StreamWriter(@"wallets.txt"))
+                using (StreamWriter sw = new StreamWriter(@"wallets.txt",true))
                 {
                     sw.WriteLine(wallet);
                     sw.WriteLine(sum);
