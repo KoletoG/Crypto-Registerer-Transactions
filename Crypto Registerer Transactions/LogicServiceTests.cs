@@ -68,7 +68,6 @@ namespace Crypto_Registerer_Transactions
             _logicService.SetWalletSumsCache(_walletCache);
             Assert.Throws<KeyNotFoundException>(() => _logicService.SumOfTransactionsByWallet("wallet4"));
         }
-        // GetWalletCache() Unit test need
         [Fact]
         public void GetWalletsCache_ReturnsDictionary_WhenDictExists()
         {
@@ -76,5 +75,25 @@ namespace Crypto_Registerer_Transactions
             var dict = _logicService.GetWalletsCache();
             Assert.Equal(dict, _walletCache);
         }
+        [Fact]
+        public void IsWalletExists_ReturnsTrue_WhenWalletExists()
+        {
+            _logicService.SetWalletSumsCache(_walletCache);
+            bool exist = _logicService.IsWalletExists("wallet2");
+            Assert.True(exist);
+        }
+        [Fact]
+        public void IsWalletExists_ReturnsFalse_WhenWalletDoesNotExist()
+        {
+            _logicService.SetWalletSumsCache(_walletCache);
+            bool exist = _logicService.IsWalletExists("wallet5");
+            Assert.False(exist);
+        }
+        [Fact]
+        public void IsWalletExists_ThrowsError_WhenCacheIsEmpty()
+        {
+            Assert.Throws<NullReferenceException>(() => _logicService.IsWalletExists("wallet"));
+        }
+
     }
 }
