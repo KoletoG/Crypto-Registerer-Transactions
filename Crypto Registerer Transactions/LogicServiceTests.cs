@@ -11,44 +11,42 @@ namespace Crypto_Registerer_Transactions
 {
     public class LogicServiceTests
     {
+        private Mock<ILogger<LogicService>> _logger;
+        private Mock<IWalletIOService> _walletService;
+        private LogicService _logicService;
+
+        public LogicServiceTests()
+        {
+            _logger = new Mock<ILogger<LogicService>>();
+            _walletService = new Mock<IWalletIOService>();
+            _logicService = new LogicService(_logger.Object, _walletService.Object);
+        }
         [Fact]
         public void IsWalletValid_ReturnsFalse_WhenWalletIsInvalid()
         {
-            var logger = new Mock<ILogger<LogicService>>();
-            var walletService = new Mock<IWalletIOService>();
-            var logicService= new LogicService(logger.Object, walletService.Object);
             string invalidWallet = "TEST";
-            bool result = logicService.IsWalletValid(invalidWallet);
+            bool result = _logicService.IsWalletValid(invalidWallet);
             Assert.False(result);
         }
         [Fact]
         public void IsWalletValid_ReturnsTrue_WhenWalletIsValid()
         {
-            var logger = new Mock<ILogger<LogicService>>();
-            var walletService = new Mock<IWalletIOService>();
-            var logicService = new LogicService(logger.Object, walletService.Object);
             string validWallet = "2v8xdgPZPgZ8FZHqWhxHh2DiyTZKyxFiGFkmHvZPmbzL";
-            bool result = logicService.IsWalletValid(validWallet);
+            bool result = _logicService.IsWalletValid(validWallet);
             Assert.True(result);
         }
         [Fact]
         public void IsWalletValid_ReturnsFalse_WhenWalletIsEmpty()
         {
-            var logger = new Mock<ILogger<LogicService>>();
-            var walletService = new Mock<IWalletIOService>();
-            var logicService = new LogicService(logger.Object, walletService.Object);
             string emptyWallet = string.Empty;
-            bool result = logicService.IsWalletValid(emptyWallet);
+            bool result = _logicService.IsWalletValid(emptyWallet);
             Assert.False(result);
         }
         [Fact]
         public void IsWalletValid_ReturnsFalse_WhenWalletIsNotBase58()
         {
-            var logger = new Mock<ILogger<LogicService>>();
-            var walletService = new Mock<IWalletIOService>();
-            var logicService = new LogicService(logger.Object, walletService.Object);
-            string exceptionWallet = "0OIl+/=";
-            bool result = logicService.IsWalletValid(exceptionWallet);
+            string exceptionWallet = "0OIl+/=ggggggghhhhtttttttrrrreeeeeeeeeewqweg";
+            bool result = _logicService.IsWalletValid(exceptionWallet);
             Assert.False(result);
         }
     }
