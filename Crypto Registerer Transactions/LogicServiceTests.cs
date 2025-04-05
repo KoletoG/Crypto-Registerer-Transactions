@@ -97,7 +97,8 @@ namespace Crypto_Registerer_Transactions
         [Fact]
         public async Task InitializeAsync_LoadsWalletCache()
         {
-            _walletService.Setup(io => io.LoadTransactionDataAsync()).ReturnsAsync(_walletCache);
+            _walletService.Setup(io => io.LoadTransactionDataAsync())
+                          .ReturnsAsync(_walletCache);
             await _logicService.InitializeAsync();
             var result = _logicService.GetWalletsCache();
             Assert.Equal(_walletCache, result);
