@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Crypto_Registerer_Transactions
 {
-    internal class ConsoleService : IConsoleService
+    public class ConsoleService : IConsoleService
     {
         private ILogger<ConsoleService> _logger;
         public ConsoleService(ILogger<ConsoleService> logger)

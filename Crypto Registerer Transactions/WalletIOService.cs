@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Crypto_Registerer_Transactions
 {
-    internal class WalletIOService : IWalletIOService
+    public class WalletIOService : IWalletIOService
     {
         private ILogger<WalletIOService> _logger;
         private IConsoleService _console;

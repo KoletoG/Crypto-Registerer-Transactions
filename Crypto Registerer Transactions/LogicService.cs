@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 using Solnet.Wallet;
 namespace Crypto_Registerer_Transactions
 {
-    internal class LogicService : ILogicService
+    public class LogicService : ILogicService
     {
         private ILogger<LogicService> _logger;
         private Dictionary<string, double> _walletSumsCache;
@@ -94,6 +94,11 @@ namespace Crypto_Registerer_Transactions
                 {
                     return true;
                 }
+            }
+            catch(ArgumentException)
+            {
+                Console.WriteLine("Invalid wallet address");
+                return false;
             }
             catch (Exception ex)
             {
