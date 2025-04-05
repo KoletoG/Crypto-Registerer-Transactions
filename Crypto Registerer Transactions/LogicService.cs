@@ -17,6 +17,10 @@ namespace Crypto_Registerer_Transactions
             _logger = logger;
             _walletIOService = walletIOService;
         }
+        public void SetWalletSumsCache(Dictionary<string, double> walletSumsCache)
+        {
+            _walletSumsCache = walletSumsCache;
+        }
         /// <summary>
         /// Gets the sum of the wallet's registered transactions
         /// </summary>
@@ -27,6 +31,11 @@ namespace Crypto_Registerer_Transactions
             try
             {
                 return _walletSumsCache[wallet];
+            }
+            catch (KeyNotFoundException ex)
+            {
+                _logger.LogError(ex, $"Tries to get sum from wallet which doesn't exist. Source: {nameof(SumOfTransactionsByWallet)}");
+                throw;
             }
             catch (Exception ex)
             {

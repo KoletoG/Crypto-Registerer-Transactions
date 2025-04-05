@@ -14,6 +14,12 @@ namespace Crypto_Registerer_Transactions
         private Mock<ILogger<LogicService>> _logger;
         private Mock<IWalletIOService> _walletService;
         private LogicService _logicService;
+        private Dictionary<string, double> _walletCache = new Dictionary<string, double>()
+        {
+            {"wallet1", 25 },
+            {"wallet2",50 },
+            {"wallet3",120 }
+        };
 
         public LogicServiceTests()
         {
@@ -48,6 +54,19 @@ namespace Crypto_Registerer_Transactions
             string exceptionWallet = "0OIl+/=ggggggghhhhtttttttrrrreeeeeeeeeewqweg";
             bool result = _logicService.IsWalletValid(exceptionWallet);
             Assert.False(result);
+        }
+        [Fact]
+        public void SumOfTransactionsByWallet_ReturnsSum_WhenWalletExists()
+        {
+            _logicService.SetWalletSumsCache(_walletCache);
+            double sum = _logicService.SumOfTransactionsByWallet("wallet2");
+            Assert.Equal(sum, 50);
+        }
+        [Fact]
+        public void SumOfTransactionsByWallet_ThrowsError_WhenWalletDoesNotExist()
+        {
+            _logicService.SetWalletSumsCache(_walletCache);
+            Assert.Throws<KeyNotFoundException>(() => _logicService.SumOfTransactionsByWallet("wallet4"));
         }
     }
 }

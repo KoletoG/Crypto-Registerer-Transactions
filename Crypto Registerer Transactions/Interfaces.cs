@@ -14,6 +14,7 @@ namespace Crypto_Registerer_Transactions
         bool IsWalletValid(string wallet);
         Task InitializeAsync();
         Dictionary<string, double> GetWalletsCache();
+        void SetWalletSumsCache(Dictionary<string, double> walletSumsCache);
     }
     public interface IConsoleService
     {
