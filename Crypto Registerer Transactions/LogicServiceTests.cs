@@ -86,7 +86,7 @@ namespace Crypto_Registerer_Transactions
         public void IsWalletExists_ReturnsFalse_WhenWalletDoesNotExist()
         {
             _logicService.SetWalletSumsCache(_walletCache);
-            bool exist = _logicService.IsWalletExists("wallet5");
+            bool exist = _logicService.IsWalletExists("wallet4");
             Assert.False(exist);
         }
         [Fact]
@@ -94,6 +94,13 @@ namespace Crypto_Registerer_Transactions
         {
             Assert.Throws<NullReferenceException>(() => _logicService.IsWalletExists("wallet"));
         }
-
+        [Fact]
+        public async Task InitializeAsync_LoadsWalletCache()
+        {
+            _walletService.Setup(io => io.LoadTransactionDataAsync()).ReturnsAsync(_walletCache);
+            await _logicService.InitializeAsync();
+            var result = _logicService.GetWalletsCache();
+            Assert.Equal(_walletCache, result);
+        }
     }
 }
