@@ -60,7 +60,7 @@ namespace Crypto_Registerer_Transactions
         {
             _logicService.SetWalletSumsCache(_walletCache);
             double sum = _logicService.SumOfTransactionsByWallet("wallet2");
-            Assert.Equal(sum, 50);
+            Assert.Equal(50,sum);
         }
         [Fact]
         public void SumOfTransactionsByWallet_ThrowsError_WhenWalletDoesNotExist()
