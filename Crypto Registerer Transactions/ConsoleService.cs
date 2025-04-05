@@ -51,6 +51,10 @@ namespace Crypto_Registerer_Transactions
                 throw;
             }
         }
+        /// <summary>
+        /// Reads the console input and returns it as a number
+        /// </summary>
+        /// <returns>sum of the transaction for registration</returns>
         public double GetSum()
         {
             try

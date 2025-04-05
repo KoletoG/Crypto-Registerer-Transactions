@@ -17,6 +17,10 @@ namespace Crypto_Registerer_Transactions
             _logger = logger;
             _walletIOService = walletIOService;
         }
+        /// <summary>
+        /// Sets _walletSumsCache keys and values from another dictionary, used for Unit tests
+        /// </summary>
+        /// <param name="walletSumsCache">Dictionary to get keys and values from</param>
         public void SetWalletSumsCache(Dictionary<string, double> walletSumsCache)
         {
             _walletSumsCache = walletSumsCache;
@@ -55,6 +59,10 @@ namespace Crypto_Registerer_Transactions
                 throw;
             }
         }
+        /// <summary>
+        /// Loads _walletSumsCache with the wallets and sums from wallets.txt
+        /// </summary>
+        /// <returns>Loaded _walletSumsCache with wallets and sums</returns>
         public async Task InitializeAsync()
         {
             try

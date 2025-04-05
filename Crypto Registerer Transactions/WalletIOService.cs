@@ -16,6 +16,12 @@ namespace Crypto_Registerer_Transactions
             _logger = logger;
             _console = consoleService;
         }
+        /// <summary>
+        /// Saves transaction registration in wallets.txt
+        /// </summary>
+        /// <param name="wallet">Wallet's address</param>
+        /// <param name="_walletSumsCache">Cache of the wallets, loaded at the start of the program</param>
+        /// <param name="sum">Sum of the transaction</param>
         public void SaveTransaction(string wallet, Dictionary<string, double> _walletSumsCache, double sum)
         {
             try
@@ -41,6 +47,10 @@ namespace Crypto_Registerer_Transactions
                 throw;
             }
         }
+        /// <summary>
+        /// Loads the wallets and their sums into a dictionary
+        /// </summary>
+        /// <returns>Dictionary filled with wallets and their sums</returns>
         public async Task<Dictionary<string, double>> LoadTransactionDataAsync()
         {
             try
