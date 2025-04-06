@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Crypto_Registerer_Transactions.Interfaces;
+using Crypto_Registerer_Transactions.Services;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Solnet.Wallet;
 using Xunit;
 
-namespace Crypto_Registerer_Transactions
+namespace Crypto_Registerer_Transactions.Tests
 {
     public class WalletIOServiceTests
     {

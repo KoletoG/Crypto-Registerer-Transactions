@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Crypto_Registerer_Transactions
+namespace Crypto_Registerer_Transactions.Interfaces
 {
     public interface ILogicService
     {

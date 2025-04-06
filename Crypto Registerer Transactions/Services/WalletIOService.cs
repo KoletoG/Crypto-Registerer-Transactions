@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Crypto_Registerer_Transactions.Interfaces;
 using Microsoft.Extensions.Logging;
 
-namespace Crypto_Registerer_Transactions
+namespace Crypto_Registerer_Transactions.Services
 {
     public class WalletIOService : IWalletIOService
     {

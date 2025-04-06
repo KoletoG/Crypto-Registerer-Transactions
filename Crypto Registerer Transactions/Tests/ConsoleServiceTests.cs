@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Castle.Core.Logging;
+using Crypto_Registerer_Transactions.Services;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;
 
-namespace Crypto_Registerer_Transactions
+namespace Crypto_Registerer_Transactions.Tests
 {
     public class ConsoleServiceTests
     {

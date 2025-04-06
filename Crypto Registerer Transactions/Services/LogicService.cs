@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Crypto_Registerer_Transactions.Interfaces;
 using Microsoft.Extensions.Logging;
 using Solnet.Wallet;
-namespace Crypto_Registerer_Transactions
+namespace Crypto_Registerer_Transactions.Services
 {
     public class LogicService : ILogicService
     {
@@ -134,7 +135,7 @@ namespace Crypto_Registerer_Transactions
         {
             try
             {
-                if (String.IsNullOrEmpty(response))
+                if (string.IsNullOrEmpty(response))
                 {
                     token.Cancel();
                     return true;
