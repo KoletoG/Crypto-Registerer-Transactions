@@ -32,14 +32,7 @@ namespace Crypto_Registerer_Transactions.Services
                     sw.WriteLine(wallet);
                     sw.WriteLine(sum);
                 }
-                if (_walletSumsCache.TryGetValue(wallet, out double value))
-                {
-                    _walletSumsCache[wallet] = value + sum;
-                }
-                else
-                {
-                    _walletSumsCache[wallet] = sum;
-                }
+                _walletSumsCache[wallet] = _walletSumsCache.TryGetValue(wallet, out double value) ? value + sum : sum;
                 _console.SayMessage("Transaction saved successfully!", ConsoleColor.Green);
             }
             catch (Exception ex)
@@ -63,14 +56,7 @@ namespace Crypto_Registerer_Transactions.Services
                     string wallet = lines[i];
                     if (double.TryParse(lines[i + 1], out double sum))
                     {
-                        if (_walletSumsCache.TryGetValue(wallet, out double value))
-                        {
-                            _walletSumsCache[wallet] = value + sum;
-                        }
-                        else
-                        {
-                            _walletSumsCache[wallet] = sum;
-                        }
+                        _walletSumsCache[wallet] = _walletSumsCache.TryGetValue(wallet, out double value) ? value + sum : sum;
                     }
                 }
                 return _walletSumsCache;
