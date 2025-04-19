@@ -51,7 +51,8 @@ namespace Crypto_Registerer_Transactions.Services
             {
                 Dictionary<string, double> _walletSumsCache = new();
                 var lines = await File.ReadAllLinesAsync(@"wallets.txt");
-                for (int i = 0; i < lines.Length; i += 2)
+                int linesLength = lines.Length;
+                for (int i = 0; i < linesLength; i += 2)
                 {
                     string wallet = lines[i];
                     if (double.TryParse(lines[i + 1], out double sum))
